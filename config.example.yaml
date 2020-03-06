@@ -1,0 +1,12 @@
+postgres:
+    database: news_parser
+    user: news_parser
+    password: news_parser
+    host: localhost:5433
+vk_api:
+    # For user-token based parsing specify following two parameters
+    username: "your_vk_username"
+    password: "your_vk_password"
+    # For app-based authorization
+    # TODO: Not implemented now
+    token: "your_vk_service_token"

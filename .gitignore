@@ -1,4 +1,6 @@
 /venv
 .idea
-.vscode
+.vscode/
 __pycache__/
+config.yaml
+vk_config.v2.json

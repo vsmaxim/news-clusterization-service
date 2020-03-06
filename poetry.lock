@@ -346,6 +346,22 @@ secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "cer
 socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 
 [[package]]
+category = "main"
+description = "Python модуль для написания скриптов для социальной сети Вконтакте (vk.com) (API wrapper)"
+name = "vk-api"
+optional = false
+python-versions = "*"
+version = "11.7.0"
+
+[package.dependencies]
+requests = "*"
+six = "*"
+
+[package.extras]
+vkaudio = ["beautifulsoup4"]
+vkstreaming = ["websocket-client"]
+
+[[package]]
 category = "dev"
 description = "Module for decorators, wrappers and monkey patching."
 name = "wrapt"
@@ -354,7 +370,7 @@ python-versions = "*"
 version = "1.11.2"
 
 [metadata]
-content-hash = "6075726b2e09a085970d0f8bda95231fe4c31a6f9f9548db89c2c7895fee06fa"
+content-hash = "00eb707a068a361fa1f287a785ce11924cd206c13530c0a7bc52fa94f90f7560"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -597,6 +613,9 @@ typed-ast = [
 urllib3 = [
     {file = "urllib3-1.25.8-py2.py3-none-any.whl", hash = "sha256:2f3db8b19923a873b3e5256dc9c2dedfa883e33d87c690d9c7913e1f40673cdc"},
     {file = "urllib3-1.25.8.tar.gz", hash = "sha256:87716c2d2a7121198ebcb7ce7cccf6ce5e9ba539041cfbaeecfb641dc0bf6acc"},
+]
+vk-api = [
+    {file = "vk_api-11.7.0.tar.gz", hash = "sha256:f940befeba6e2b5723eb1dbb5a8032df87c2a1ff689cfda643189fa08ce9efe5"},
 ]
 wrapt = [
     {file = "wrapt-1.11.2.tar.gz", hash = "sha256:565a021fd19419476b9362b05eeaa094178de64f8361e44468f9e9d7843901e1"},
