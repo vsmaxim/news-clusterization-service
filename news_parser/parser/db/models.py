@@ -1,4 +1,4 @@
-from news_parser.db.mapping import Base
+from news_parser.parser.db.mapping import Base
 from sqlalchemy import Column, String, Integer, DateTime
 
 

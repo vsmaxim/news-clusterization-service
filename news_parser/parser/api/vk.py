@@ -3,7 +3,7 @@ from typing import List
 
 import vk_api
 
-from news_parser.config import config
+from news_parser.parser.config import config
 
 
 vk_session = vk_api.VkApi(config['vk_api']['username'], config['vk_api']['password'])

@@ -7,8 +7,8 @@ import feedparser
 import newspaper
 import requests
 
-from news_parser.db.models import Article
-from news_parser.api.vk import get_latest_posts_links
+from news_parser.parser.db.models import Article
+from news_parser.parser.api.vk import get_latest_posts_links
 
 
 @dataclass

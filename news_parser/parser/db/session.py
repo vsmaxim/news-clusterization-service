@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
-from news_parser.db.engine import engine
+from news_parser.parser.db.engine import engine
 
 Session = sessionmaker()
 Session.configure(bind=engine)

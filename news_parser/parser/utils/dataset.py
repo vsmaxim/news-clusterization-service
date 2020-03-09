@@ -1,7 +1,7 @@
 
-from news_parser.parsers import parse_articles_from_vk_source
-from news_parser.db.models import Article, NewsSource
-from news_parser.db.session import session_scope
+from news_parser.parser.parsers import parse_articles_from_vk_source
+from news_parser.parser.db.models import Article, NewsSource
+from news_parser.parser.db.session import session_scope
 
 
 def collect_articles_from_vk(last_days: int = 5):

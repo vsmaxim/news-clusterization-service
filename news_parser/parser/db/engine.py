@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 
-from news_parser.config import config
+from news_parser.parser.config import config
 
 
 db_config = config['db']
