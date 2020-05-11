@@ -1,6 +1,6 @@
 
-from news_parser.parser.parsers import parse_articles_from_vk_source
-from news_parser.parser.db.models import Article, NewsSource
+from news_clustering.parsers import parse_articles_from_vk_source
+from news_parser.parser.db.models import NewsSource
 from news_parser.parser.db.session import session_scope
 
 

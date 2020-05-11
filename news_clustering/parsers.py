@@ -2,13 +2,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import List
 
-from bs4 import BeautifulSoup
 import feedparser
 import newspaper
-import requests
 
-from news_parser.parser.db.models import Article
-from news_parser.parser.api.vk import get_latest_posts_links
+from news.models import Article
+from news_clustering.api.vk import get_latest_posts_links
 
 
 @dataclass
@@ -23,6 +21,18 @@ def parse_rss_entries(rss: str) -> List[RSSFeedEntry]:
     feed = feedparser.parse(rss)
     entries = feed['entries']
     return [RSSFeedEntry(entry['title'], entry['summary'], entry['link'], entry['published_parsed']) for entry in entries]
+
+
+def parse_article_from_link(link: str) -> Article:
+    article = newspaper.Article(link, language='ru')
+    article.download()
+    article.parse()
+    return Article(
+        title=article.title,
+        text=article.text,
+        source=link,
+        publish_date=article.publish_date,
+    )
 
 
 def parse_articles_from_rss(rss: str) -> List[Article]:
@@ -52,11 +62,6 @@ def parse_articles_from_vk_source(public_id: int, days_count: int) -> Article:
         article = newspaper.Article(link, language='ru')
         article.download()
         article.parse()
-        articles.append(Article(
-            title=article.title,
-            text=article.text,
-            source=link,
-            publish_date=article.publish_date,
-        ))
+        articles.append(parse_article_from_link(link))
 
     return articles

@@ -11,6 +11,7 @@ vk_session.auth()
 
 vk = vk_session.get_api()
 
+
 def get_latest_posts_links(group_id: int, days_count: int) -> List[str]:
     current_offset = 0
     max_wall_count = 100
