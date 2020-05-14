@@ -1,18 +1,24 @@
+from typing import List, Dict
+
 from django.contrib.postgres.fields import JSONField, ArrayField
 from django.db import models
-
-from news_clustering.parsers import parse_article_from_link
+from django.utils import timezone
 from news_clustering.nlp import sentence_embedder, text_embedder
 
 
 class ArticleManager(models.Manager):
-    def _parse_article(self, source: str):
-        article = parse_article_from_link(source)
-        article.save()
-        return article
+    def articles_from_time_window(self, dtm: timezone.datetime, time_window: int = 180):
+        delta = timezone.timedelta(days=time_window)
+        return self.get_queryset().filter(publish_date__gt=dtm - delta, publish_date__lt=dtm + delta)
 
-    def get_article(self, source: str):
-        return self.get_queryset().filter(source=source) or self._parse_article(source)
+    def cluster_new_articles(self, articles_clusters: List[List[int]]):
+        for article_ids in articles_clusters:
+            cluster = Cluster.objects.create()
+            self.get_queryset().filter(id__in=article_ids).update(cluster_id=cluster.id)
+
+    def extend_old_clusters(self, articles_mapping: Dict[int, List[int]]):
+        for cluster_id, article_ids in articles_mapping.items():
+            self.get_queryset().filter(id__in=article_ids).update(cluster_id=cluster_id)
 
 
 class Article(models.Model):
@@ -25,6 +31,7 @@ class Article(models.Model):
     title_embedding = ArrayField(models.FloatField())
     text_sentences = ArrayField(models.TextField())
     text_sentence_embeddings = ArrayField(ArrayField(models.IntegerField()))
+    objects = ArticleManager()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

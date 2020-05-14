@@ -2,13 +2,16 @@ from rest_framework.generics import RetrieveAPIView
 
 from news.models import Article, Cluster
 from news.serializers import ArticleSerializer, ClusterSerializer
+from news_clustering.parsers import parse_article_from_link
 
 
 class ArticleRetrieveView(RetrieveAPIView):
     serializer_class = ArticleSerializer
 
     def get_object(self):
-        return Article.objects.get_article(source=self.request.query_params["source"])
+        source = self.request.query_params["source"]
+        articles = Article.objects.filter(source=source).first()
+        return articles.first() or parse_article_from_link(source)
 
 
 class AssociatedArticlesRetrieveView(RetrieveAPIView):

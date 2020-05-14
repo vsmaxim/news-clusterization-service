@@ -6,7 +6,7 @@ import feedparser
 import newspaper
 
 from news.models import Article
-from news_clustering.api.vk import get_latest_posts_links
+# from news_clustering.api.vk import get_latest_posts_links
 
 
 @dataclass
@@ -54,14 +54,14 @@ def parse_articles_from_rss(rss: str) -> List[Article]:
     return articles
 
 
-def parse_articles_from_vk_source(public_id: int, days_count: int) -> Article:
-    links = get_latest_posts_links(public_id, days_count)
-    articles: List[Article] = []
-
-    for link in links:
-        article = newspaper.Article(link, language='ru')
-        article.download()
-        article.parse()
-        articles.append(parse_article_from_link(link))
-
-    return articles
+# def parse_articles_from_vk_source(public_id: int, days_count: int) -> Article:
+#     links = get_latest_posts_links(public_id, days_count)
+#     articles: List[Article] = []
+#
+#     for link in links:
+#         article = newspaper.Article(link, language='ru')
+#         article.download()
+#         article.parse()
+#         articles.append(parse_article_from_link(link))
+#
+#     return articles

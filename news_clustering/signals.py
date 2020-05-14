@@ -9,31 +9,12 @@ from django.dispatch import receiver
 from sklearn.cluster import AgglomerativeClustering
 
 
-def _get_articles_from_time_window(
-    target_date: datetime, time_window: int = 180
-) -> List[Article]:
-    window_delta = timedelta(days=time_window)
-
-    return Article.objects.filter(
-        created_at__gt=target_date - window_delta,
-        created_at__lt=target_date + window_delta,
-    )
-
-
-def _create_clusters_from_article_ids(article_ids: List[int]):
-    raise NotImplementedError
-
-
-def _extend_old_clusters_with_new_articles(cluster_articles_mapping: Dict[str, List[int]]):
-    raise NotImplementedError
-
-
 @receiver(post_save, sender=Article)
-def clusterize_and_calc_distances(sender: Article):
+def clusterize_and_calc_distances(sender):
     def extend_array_key(d: dict, key: str, value: Any):
         d[key] = d.get(key, []) + value
 
-    articles_values = _get_articles_from_time_window(sender.publish_date).values_list(
+    articles_values = Article.objects.articles_from_time_window(sender.publish_date).values_list(
         "id", "title_embedding", "cluster_id"
     )
     ids, embeddings, cluster_ids = zip(*articles_values)
@@ -54,7 +35,7 @@ def clusterize_and_calc_distances(sender: Article):
             else:
                 extend_array_key(old_cluster_members_ids, current_cluster, id_)
 
-    _extend_old_clusters_with_new_articles(old_cluster_members_ids)
-    _create_clusters_from_article_ids(list(new_clusters_ids.values()))
+    Article.objects.extend_old_clusters(old_cluster_members_ids)
+    Article.objects.cluster_new_articles(list(new_clusters_ids.values()))
 
     return clustering

@@ -3,6 +3,7 @@ from news.models import Article, Cluster
 
 
 class ArticleSerializer(serializers.Serializer):
+
     class Meta:
         model = Article
         fields = (
