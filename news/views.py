@@ -10,8 +10,12 @@ class ArticleRetrieveView(RetrieveAPIView):
 
     def get_object(self):
         source = self.request.query_params["source"]
-        articles = Article.objects.filter(source=source).first()
-        return articles.first() or parse_article_from_link(source)
+
+        articles = Article.objects.filter(source=source)
+        article = articles.first() or parse_article_from_link(source)
+        article.set_cluster_difference()
+
+        return article or parse_article_from_link(source)
 
 
 class AssociatedArticlesRetrieveView(RetrieveAPIView):

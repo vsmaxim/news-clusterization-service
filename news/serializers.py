@@ -2,7 +2,13 @@ from rest_framework import serializers
 from news.models import Article, Cluster
 
 
+class SentenceProbabilitySerializer(serializers.Serializer):
+    sentence = serializers.CharField()
+    difference = serializers.FloatField()
+
+
 class ArticleSerializer(serializers.Serializer):
+    cluster_difference_probs = SentenceProbabilitySerializer(many=True)
 
     class Meta:
         model = Article
@@ -12,7 +18,7 @@ class ArticleSerializer(serializers.Serializer):
             'source',
             'publish_date',
             'cluster',
-            'cluster_difference',
+            'cluster_difference_probs',
         )
 
 
