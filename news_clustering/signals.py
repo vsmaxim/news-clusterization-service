@@ -35,6 +35,8 @@ def clusterize_and_calc_distances(sender):
             else:
                 extend_array_key(old_cluster_members_ids, current_cluster, id_)
 
+    print("here")
+
     Article.objects.extend_old_clusters(old_cluster_members_ids)
     Article.objects.cluster_new_articles(list(new_clusters_ids.values()))
 

@@ -19,6 +19,7 @@ tensorflow_hub = "^0.8.0"
 tensorflow-gpu = "~1"
 tensorflow = "~1"
 python-dotenv = "^0.13.0"
+django-cors-headers = "^3.3.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"

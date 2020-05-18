@@ -1,20 +1,27 @@
 from typing import List, Tuple
 
-import numpy as np
-from deeppavlov.models.embedders.elmo_embedder import ELMoEmbedder
 import nltk
-
+import numpy as np
 # TODO: Make local copy
-elmo_paraphrase_embedder = ELMoEmbedder("http://files.deeppavlov.ai/deeppavlov_data/elmo_news_wmt11-16-simple_reduce_para_pretrain_fine_tuned_ep1.tar.gz")
+from deeppavlov.models.embedders.fasttext_embedder import FasttextEmbedder
+
+embedder = FasttextEmbedder(
+    "~/.deeppavlov/downloads/embeddings/ft_native_300_ru_wiki_lenta_lower_case.bin"
+)
 
 
-def sentence_embedder(text: str) -> List[float]:
-    return elmo_paraphrase_embedder(nltk.word_tokenize(text))
+def get_mean_embeddings(tokens: List[List[str]]) -> List[List[float]]:
+    return [np.mean(sent_embeddings, axis=0).tolist() for sent_embeddings in embedder(tokens)]
+
+
+def sentence_embedder(sentence: str) -> List[float]:
+    return get_mean_embeddings([nltk.word_tokenize(sentence)])[0]
 
 
 def text_embedder(text: str) -> Tuple[List[List[float]], List[str]]:
     sentences = nltk.sent_tokenize(text)
-    return elmo_paraphrase_embedder([nltk.word_tokenize(sent) for sent in sentences]), sentences
+    tokens = [nltk.word_tokenize(sentence) for sentence in sentences]
+    return get_mean_embeddings(tokens), sentences
 
 
 def article_sentence_cluster_distances(article_embs, cluster_embs):
@@ -35,5 +42,3 @@ def article_sentence_cluster_distances(article_embs, cluster_embs):
         article_min_distances.append(min_distance)
 
     return article_min_distances
-
-

@@ -53,7 +53,7 @@ class Article(models.Model):
             .exclude(id=self.id)
             .values_list("text_sentence_embeddings", flat=True)
         )
-        article_embeddings = map(np.array, self.text_sentence_embeddings)
+        article_embeddings = list(map(np.array, self.text_sentence_embeddings))
         flat_cluster_embeddings = [
             np.array(emb) for embs in cluster_articles_embeddings for emb in embs
         ]
@@ -69,9 +69,9 @@ class Article(models.Model):
                 if distance < min_distance:
                     min_distance = distance
 
-            min_distances.append(min_distance)
+            min_distances.append(min_distance if flat_cluster_embeddings else 0)
 
-        min_distances = np.array(min_distances) / 1.5
+        min_distances = np.array(min_distances)
         self.cluster_difference = min_distances.tolist()
         self.save()
 
