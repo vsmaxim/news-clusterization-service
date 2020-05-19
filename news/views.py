@@ -15,7 +15,7 @@ class ArticleRetrieveView(RetrieveAPIView):
         article = articles.first() or parse_article_from_link(source)
         article.set_cluster_difference()
 
-        return article or parse_article_from_link(source)
+        return article
 
 
 class AssociatedArticlesRetrieveView(RetrieveAPIView):
