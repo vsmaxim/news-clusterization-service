@@ -5,3 +5,5 @@ __pycache__/
 config.yaml
 vk_config.v2.json
 db.sqlite3
+datasets/
+embeddings/

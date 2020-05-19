@@ -1,17 +1,25 @@
+import os
 from typing import List, Tuple
 
 import nltk
 import numpy as np
-# TODO: Make local copy
 from deeppavlov.models.embedders.fasttext_embedder import FasttextEmbedder
 
+from news_clustering.settings import BASE_DIR
+
 embedder = FasttextEmbedder(
-    "~/.deeppavlov/downloads/embeddings/ft_native_300_ru_wiki_lenta_lower_case.bin"
+    os.path.join(
+        BASE_DIR,
+        "news_clustering/embeddings/ft_native_300_ru_wiki_lenta_lower_case.bin",
+    )
 )
 
 
 def get_mean_embeddings(tokens: List[List[str]]) -> List[List[float]]:
-    return [np.mean(sent_embeddings, axis=0).tolist() for sent_embeddings in embedder(tokens)]
+    return [
+        np.mean(sent_embeddings, axis=0).tolist()
+        for sent_embeddings in embedder(tokens)
+    ]
 
 
 def sentence_embedder(sentence: str) -> List[float]:
