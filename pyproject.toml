@@ -16,14 +16,17 @@ deeppavlov = "^0.8.0"
 django = "^3.0.6"
 djangorestframework = "^3.11.0"
 tensorflow_hub = "^0.8.0"
-tensorflow-gpu = "~1"
-tensorflow = "~1"
 python-dotenv = "^0.13.0"
 django-cors-headers = "^3.3.0"
+transformers = "^2.10.0"
+torch = "^1.5.0"
+torchvision = "^0.6.0"
+tensorflow-gpu = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"
 jupyter = "^1.0.0"
+matplotlib = "^3.2.1"
 
 [build-system]
 requires = ["poetry>=0.12"]
